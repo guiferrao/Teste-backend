@@ -1,29 +1,20 @@
-## --- CORE .NET (Compilação) ---
-# Ignora as pastas de saída onde o VS coloca os executáveis e arquivos temporários
 [Bb]in/
 [Oo]bj/
 .vs/
 .vscode/
 
-## --- BANCO DE DADOS (SQLite) ---
-# Essencial para não subir seu arquivo de dados local para o GitHub
 *.db
 *.db-shm
 *.db-wal
 
-## --- CONFIGURAÇÕES LOCAIS ---
-# Ignora configurações que podem ter caminhos da sua máquina ou segredos
 appsettings.Development.json
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
 
-## --- PACOTES ---
-# O .NET restaura os pacotes automaticamente, não precisamos subir a pasta
 packages/
 *.nupkg
 
-## --- SISTEMA ---
 .DS_Store
 Thumbs.db
