@@ -11,6 +11,6 @@ namespace Teste.Api.ViewModels
         [JsonPropertyName("localidade")]
         public string? Cidade { get; set; }
         public string? Uf { get; set; }
-        public bool Erro { get; set; }
+        public string? Erro { get; set; }
     }
 }

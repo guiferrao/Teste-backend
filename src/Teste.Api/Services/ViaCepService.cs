@@ -27,7 +27,7 @@ namespace Teste.Api.Services
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 var viaCepResponse = JsonSerializer.Deserialize<ViaCepResponse>(json, options);
 
-                if (viaCepResponse != null && viaCepResponse.Erro)
+                if (viaCepResponse != null && viaCepResponse.Erro == "true")
                 {
                     return null;
                 }
