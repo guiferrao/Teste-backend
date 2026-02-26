@@ -1,4 +1,4 @@
-﻿namespace Teste.Api.ViewModels
+﻿namespace Teste.Api.ViewModels.ResultsViewModels
 {
     public class ApiError
     {
