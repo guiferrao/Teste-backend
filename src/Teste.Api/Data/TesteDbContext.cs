@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Teste.Api.Data.Mappings;
 using Teste.Api.Models;
 
 namespace Teste.Api.Data
@@ -9,5 +10,9 @@ namespace Teste.Api.Data
         {
         }
         public DbSet<Cliente> Clientes { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new ClienteMap());
+        }
     }
 }
