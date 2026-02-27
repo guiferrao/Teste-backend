@@ -13,7 +13,7 @@ namespace Teste.Api.ViewModels
         public string Email { get; set; }
 
         [Required(ErrorMessage = "O telefone é obrigatório.")]
-        [RegularExpression(@"^\d{10,11}$", ErrorMessage = "O telefone deve ser um número válido com DDD")]
+        [RegularExpression(@"^[1-9][0-9]{9,10}$", ErrorMessage = "O DDD não pode iniciar com 0 e o telefone deve conter entre 10 e 11 números")]
         public string Telefone { get; set; }
 
         [Required(ErrorMessage = "O CEP é obrigatório.")]
