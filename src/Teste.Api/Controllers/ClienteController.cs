@@ -14,6 +14,10 @@ namespace Teste.Api.Controllers
     public class ClienteController : ControllerBase
     {
         [HttpPost("/clientes")]
+        [ProducesResponseType(typeof(ResultViewModel<Cliente>), 201)]
+        [ProducesResponseType(typeof(ResultViewModel<Cliente>), 400)]
+        [ProducesResponseType(typeof(ResultViewModel<Cliente>), 409)]
+        [ProducesResponseType(typeof(ResultViewModel<Cliente>), 503)]
         public async Task<IActionResult> CriarClienteAsync(
             [FromBody] ClienteViewModel model,
             [FromServices] TesteDbContext context,
@@ -92,6 +96,8 @@ namespace Teste.Api.Controllers
         }
 
         [HttpGet("/clientes")]
+        [ProducesResponseType(typeof(PaginacaoResultViewModel<List<Cliente>>), 200)]
+        [ProducesResponseType(typeof(ResultViewModel<Cliente>), 400)]
         public async Task<IActionResult> ObterClientesAsync(
             [FromServices] TesteDbContext context,
             [FromQuery, Range(1, int.MaxValue, ErrorMessage = "A página deve ser maior ou igual a 1")] int page = 1,
@@ -134,6 +140,8 @@ namespace Teste.Api.Controllers
         }
 
         [HttpGet("/clientes/{id:guid}")]
+        [ProducesResponseType(typeof(ResultViewModel<Cliente>), 200)]
+        [ProducesResponseType(typeof(ResultViewModel<Cliente>), 404)]
         public async Task<IActionResult> ObterClientePorIdAsync(
             [FromRoute] Guid id,
             [FromServices] TesteDbContext context)
@@ -159,6 +167,12 @@ namespace Teste.Api.Controllers
         }
 
         [HttpPut("/clientes/{id:guid}")]
+        [ProducesResponseType(typeof(ResultViewModel<Cliente>), 200)]
+        [ProducesResponseType(typeof(ResultViewModel<Cliente>), 400)]
+        [ProducesResponseType(typeof(ResultViewModel<Cliente>), 409)]
+        [ProducesResponseType(typeof(ResultViewModel<Cliente>), 503)]
+        [ProducesResponseType(typeof(ResultViewModel<Cliente>), 404)]
+
         public async Task<IActionResult> AtualizarClienteAsync(
             [FromRoute] Guid id,
             [FromBody] ClienteViewModel model,
