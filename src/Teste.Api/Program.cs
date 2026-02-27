@@ -19,14 +19,17 @@ builder.Services.AddHttpClient<ViaCepService>();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment()) 
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Teste");
-    });
+    var dbContext = scope.ServiceProvider.GetRequiredService<TesteDbContext>();
+    dbContext.Database.Migrate();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Teste");
+});
     
 app.MapControllers();
 
