@@ -101,7 +101,10 @@ namespace Teste.Api.Controllers
         public async Task<IActionResult> ObterClientesAsync(
             [FromServices] TesteDbContext context,
             [FromQuery, Range(1, int.MaxValue, ErrorMessage = "A página deve ser maior ou igual a 1")] int page = 1,
-            [FromQuery, Range(1, 50, ErrorMessage = "O tamanho da página deve estar entre 1 e 50")] int pageSize = 10)
+            [FromQuery, Range(1, 50, ErrorMessage = "O tamanho da página deve estar entre 1 e 50")] int pageSize = 10,
+            [FromQuery] string? q = null,
+            [FromQuery] string? uf = null,
+            [FromQuery] string? cidade = null)
         {
             if (!ModelState.IsValid)
             {
@@ -114,15 +117,36 @@ namespace Teste.Api.Controllers
 
             try
             {
-                var totalItems = await context.Clientes.CountAsync();
-                var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+                var query = context.Clientes.AsNoTracking().AsQueryable();
 
-                var clientes = await context.Clientes
+                if (!string.IsNullOrWhiteSpace(q))
+                {
+                    var termoQ = q.Trim().ToLower();
+                    query = query.Where(c => c.Nome.ToLower().Contains(termoQ) || c.Email.ToLower().Contains(termoQ));
+                }
+
+                if (!string.IsNullOrWhiteSpace(uf))
+                {
+                    var termoUf = uf.Trim().ToLower();
+                    query = query.Where(c => c.Uf != null && c.Uf.ToLower() == termoUf);
+                }
+
+                if (!string.IsNullOrWhiteSpace(cidade))
+                {
+                    var termoCidade = cidade.Trim().ToLower();
+                    query = query.Where(c => c.Cidade != null && c.Cidade.ToLower() == termoCidade);
+                }
+
+                var totalItems = await query.CountAsync();
+                
+                var clientes = await query
                     .AsNoTracking()
                     .OrderByDescending(c => c.CriadoEm)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync();
+
+                var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
                 var paginacao = new Paginacao
                 {
